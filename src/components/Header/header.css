@@ -1,0 +1,17 @@
+h1, h2 {
+    font-family: 'Indie Flower', cursive;
+    font-style: normal;
+    font-weight: 400;
+}
+
+header {
+    /* height: 75px; */
+    padding: 0.2rem 0;
+    background: #2B2B2B;
+    box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+    background: #2B2B2B;
+
+}

@@ -1,0 +1,27 @@
+.cartitem-img {
+    width: 120px;
+    height: 120px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+.cartitem-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.cartitem-body {
+    padding: 1rem 0 1rem 1rem;
+    margin: 2rem 0;
+    border-bottom: 1px solid black;
+}
+
+.cartitem-price {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+}
+

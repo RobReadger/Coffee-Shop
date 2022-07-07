@@ -1,0 +1,7 @@
+.products-back {
+    background-image: url("./../../static/images/redBack.svg");
+    background-size: 1920px 1080px;
+    background-repeat: repeat;
+    width: auto;
+    padding: 0.001rem 0;
+}
