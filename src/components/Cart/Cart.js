@@ -15,6 +15,8 @@ const theme = createTheme({
     },
 });
 
+const MotionCloseIcon = motion(CloseIcon);
+
 function Cart({ visible, setVisible }) {
     // eslint-disable-next-line
     const [cart, setCart] = useContext(CartContext);
@@ -43,6 +45,19 @@ function Cart({ visible, setVisible }) {
                 delay: i * 0.05,
             },
         }),
+        hover: {
+            scale: 1.2,
+            transition: {
+                duration: 0.06,
+                ease: "easeInOut",
+            },
+        },
+        tap: {
+            scale: 1,
+            transition: {
+                duration: 0.1,
+            },
+        },
     };
 
     useEffect(() => {
@@ -91,11 +106,14 @@ function Cart({ visible, setVisible }) {
                             : { width: "min(500px, 50vw)", height: "100vh" }
                     }
                 >
-                    <header className="cart-title">
+                    <header className="cart-title" style={{ color: "white" }}>
                         <Typography variant="h2">Cart</Typography>
-                        <CloseIcon
+                        <MotionCloseIcon
                             onClick={() => setVisible(!visible)}
                             className="cart-close"
+                            variants={variants}
+                            whileHover="hover"
+                            whileTap="tap"
                         />
                     </header>
                     <div className="cart-body">

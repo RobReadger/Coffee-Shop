@@ -1,4 +1,4 @@
-import { BrowserRouter , Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
@@ -11,6 +11,7 @@ import {
     responsiveFontSizes,
     ThemeProvider,
 } from "@mui/material/styles";
+import { SnackbarProvider } from "notistack";
 
 let theme = createTheme({
     typography: {
@@ -20,8 +21,10 @@ let theme = createTheme({
             fontFamily: "Roboto",
             fontStyle: "normal",
             fontWeight: 400,
-        }
-    }
+        },
+
+        
+    },
 });
 theme = responsiveFontSizes(theme);
 
@@ -36,18 +39,20 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <CartContext.Provider value={[cart, setCart]}>
-                    <Header />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/products" element={<Products />} />
-                        <Route path="/*" element={<ErrorPage />} />
-                    </Routes>
-                </CartContext.Provider>
-                <Footer />
-            </BrowserRouter>
+            <SnackbarProvider maxSnack={3}>
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
+                    <CartContext.Provider value={[cart, setCart]}>
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/home" element={<Home />} />
+                            <Route path="/products" element={<Products />} />
+                            <Route path="/*" element={<ErrorPage />} />
+                        </Routes>
+                    </CartContext.Provider>
+                    <Footer />
+                </BrowserRouter>
+            </SnackbarProvider>
         </ThemeProvider>
     );
 }

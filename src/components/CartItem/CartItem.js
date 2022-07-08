@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import { CartContext } from "../../App";
-import Grid from "@mui/material/Grid";
-import "./CartItem.css";
+import CloseIcon from "@mui/icons-material/Close";
+import { Grid, Box } from "@mui/material";
 import { motion, useAnimation } from "framer-motion";
+import { CartContext } from "../../App";
+import "./CartItem.css";
 
 const MotionRemoveIcon = motion(RemoveIcon);
 const MotionAddIcon = motion(AddIcon);
+const MotionCloseIcon = motion(CloseIcon);
 const MotionGrid = motion(Grid);
 
 function CartItem({ id }) {
@@ -21,18 +23,19 @@ function CartItem({ id }) {
             ease: "easeInOut",
         },
     };
+
     const variants = {
         hover: {
             scale: 1.3,
             transition: {
-                duration: 0.1,
+                duration: 0.06,
                 ease: "easeInOut",
             },
         },
         tap: {
             scale: 1,
             transition: {
-                duration: 0.1,
+                duration: 0.06,
             },
         },
         initial: {
@@ -56,12 +59,7 @@ function CartItem({ id }) {
             setCart(newCart);
             control.start(shake);
         } else {
-            newCart.splice(newCart.indexOf(item), 1);
-            for (let i = 0; i < newCart.length; i++) {
-                newCart[i].id = i;
-            }
-            localStorage.setItem("cart", JSON.stringify(newCart));
-            setCart(newCart);
+            removeFromCart(newCart, item);
         }
     }
 
@@ -72,6 +70,15 @@ function CartItem({ id }) {
         localStorage.setItem("cart", JSON.stringify(newCart));
         setCart(newCart);
         control.start(shake);
+    }
+
+    function removeFromCart(newCart, item) {
+        newCart.splice(newCart.indexOf(item), 1);
+        for (let i = 0; i < newCart.length; i++) {
+            newCart[i].id = i;
+        }
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        setCart(newCart);
     }
 
     return (
@@ -91,6 +98,27 @@ function CartItem({ id }) {
                 ></div>
             </Grid>
             <Grid item xs={3.5}>
+                {/* <Stack direction="column" justifyContent="center" alignItems="strech"> */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                    pb=".5rem"
+                >
+                    <MotionCloseIcon
+                        onClick={() => {
+                            const newCart = [...cart];
+                            const item = newCart.find((item) => item.id === id);
+                            removeFromCart(newCart, item);
+                        }}
+                        variants={variants}
+                        whileHover="hover"
+                        whileTap="tap"
+                        sx={{color: "#ff5050"}}
+                    />
+                </Box>
                 <h3
                     className="light-roboto"
                     style={{
@@ -101,7 +129,10 @@ function CartItem({ id }) {
                 >
                     {cart[id].name}
                 </h3>
-                <div className="cartitem-flex">
+                <div
+                    className="cartitem-flex"
+                    style={{ paddingBottom: "1rem" }}
+                >
                     <MotionRemoveIcon
                         onClick={decreaseItem}
                         variants={variants}
@@ -128,6 +159,7 @@ function CartItem({ id }) {
                         whileTap="tap"
                     />
                 </div>
+                {/* </Stack> */}
             </Grid>
             <Grid item xs={3.5} className="cartitem-flex">
                 <motion.h2 className="cartitem-price" animate={control}>

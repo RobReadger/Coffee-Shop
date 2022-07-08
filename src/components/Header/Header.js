@@ -1,14 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Grid, Stack, Typography, Badge, useMediaQuery } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { motion, useAnimation } from "framer-motion";
-import { HashLink } from 'react-router-hash-link';
+import { HashLink } from "react-router-hash-link";
 import { CartContext } from "../../App";
 import Cart from "./../Cart/Cart";
 import HeaderItem from "../HeaderItem/HeaderItem";
-import OutsideClickHandler from 'react-outside-click-handler';
+import OutsideClickHandler from "react-outside-click-handler";
 import "./header.css";
 
 function Header() {
@@ -18,6 +18,7 @@ function Header() {
     const [headerVisibility, setHeaderVisibility] = useState(true);
     // eslint-disable-next-line
     const [cart, setCart] = useContext(CartContext);
+    const [cartCount, setCartCount] = useState(0);
     const control = useAnimation();
 
     const shoppingCartAnim = {
@@ -27,6 +28,9 @@ function Header() {
             ease: "easeInOut",
         },
     };
+
+
+
 
     const HeaderOptions = () => (
         <>
@@ -43,23 +47,44 @@ function Header() {
                 <Link to="/products">Products</Link>
             </HeaderItem>
 
-            <motion.div
-                style={{
-                    cursor: "pointer",
+            <Badge
+                badgeContent={cartCount}
+                color="primary"
+                sx={{
+                    "& .MuiBadge-badge": {
+                        fontFamily: "Roboto",
+                        fontStyle: "normal",
+                        fontWeight: 400,
+                    },
                 }}
-                animate={control}
-                whileHover={shoppingCartAnim}
             >
-                <ShoppingCartOutlinedIcon
-                    style={{ fontSize: 40, margin: "0 0.8rem", color: "white" }}
-                    onClick={() => setCartVisibility(!cartVisibility)}
-                />
-            </motion.div>
+                <motion.div
+                    style={{
+                        cursor: "pointer",
+                    }}
+                    animate={control}
+                    whileHover={shoppingCartAnim}
+                >
+                    <ShoppingCartOutlinedIcon
+                        style={{
+                            fontSize: 40,
+                            margin: "0 0.8rem",
+                            color: "white",
+                        }}
+                        onClick={() => setCartVisibility(!cartVisibility)}
+                    />
+                </motion.div>
+            </Badge>
         </>
     );
 
     useEffect(() => {
         control.start(shoppingCartAnim);
+        let items = 0;
+        for (const product of cart) {
+            items += product.quantity;
+        }
+        setCartCount(items);
         // eslint-disable-next-line
     }, [cart, control]);
 
@@ -83,7 +108,9 @@ function Header() {
                 p="0.3rem 1rem"
             >
                 <Grid item xs="auto">
-                    <Typography variant="h2" style={{color:"white"}}>Coffee shop</Typography>
+                    <Typography variant="h2" style={{ color: "white" }}>
+                        Coffee shop
+                    </Typography>
                 </Grid>
 
                 {!isTablet ? (
@@ -93,9 +120,13 @@ function Header() {
                         </Stack>
                     </Grid>
                 ) : (
-                    <MenuIcon onClick={toggleHeader} style={{ fontSize: 40, color: "white" }} />
+                    <MenuIcon
+                        onClick={toggleHeader}
+                        style={{ fontSize: 40, color: "white" }}
+                    />
                 )}
             </Grid>
+
             {isTablet && headerVisibility && (
                 <motion.div
                     initial={{
@@ -115,7 +146,9 @@ function Header() {
                 </motion.div>
             )}
 
-            <OutsideClickHandler onOutsideClick={() => setCartVisibility(false)}>
+            <OutsideClickHandler
+                onOutsideClick={() => setCartVisibility(false)}
+            >
                 <Cart visible={cartVisibility} setVisible={setCartVisibility} />
             </OutsideClickHandler>
         </header>

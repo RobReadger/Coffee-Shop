@@ -4,6 +4,7 @@ import ProductboxData from "./ProductData.js";
 import { motion } from "framer-motion";
 import { Container } from "@mui/material";
 
+
 function Products() {
     const ProductboxVariants = {
         initialLeft: {
