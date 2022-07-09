@@ -66,6 +66,8 @@ function Cart({ visible, setVisible }) {
             subbtotal += product.price * product.quantity;
         }
 
+        subbtotal = Math.round(subbtotal * 100) / 100;
+
         function setPrices() {
             setTimeout(async () => {
                 setSubtotal(subbtotal);
