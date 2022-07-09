@@ -1,6 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Stack, Typography, Badge, useMediaQuery } from "@mui/material";
+import {
+    Grid,
+    Stack,
+    Typography,
+    Badge,
+    useMediaQuery,
+    Box,
+} from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { motion, useAnimation } from "framer-motion";
@@ -29,9 +36,6 @@ function Header() {
         },
     };
 
-
-
-
     const HeaderOptions = () => (
         <>
             <HeaderItem>
@@ -47,34 +51,47 @@ function Header() {
                 <Link to="/products">Products</Link>
             </HeaderItem>
 
-            <Badge
-                badgeContent={cartCount}
-                color="primary"
+            <Box
                 sx={{
-                    "& .MuiBadge-badge": {
-                        fontFamily: "Roboto",
-                        fontStyle: "normal",
-                        fontWeight: 400,
-                    },
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}
+                mr={2}
             >
-                <motion.div
-                    style={{
-                        cursor: "pointer",
+                <Badge
+                    badgeContent={cartCount}
+                    color="primary"
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "3rem",
+                        "& .MuiBadge-badge": {
+                            fontFamily: "Roboto",
+                            fontStyle: "normal",
+                            fontWeight: 400,
+                        },
                     }}
-                    animate={control}
-                    whileHover={shoppingCartAnim}
                 >
-                    <ShoppingCartOutlinedIcon
+                    <motion.div
                         style={{
-                            fontSize: 40,
-                            margin: "0 0.8rem",
-                            color: "white",
+                            cursor: "pointer",
                         }}
-                        onClick={() => setCartVisibility(!cartVisibility)}
-                    />
-                </motion.div>
-            </Badge>
+                        animate={control}
+                        whileHover={shoppingCartAnim}
+                    >
+                        <ShoppingCartOutlinedIcon
+                            style={{
+                                fontSize: 40,
+                                margin: "0 0.8rem",
+                                color: "white",
+                            }}
+                            onClick={() => setCartVisibility(!cartVisibility)}
+                        />
+                    </motion.div>
+                </Badge>
+            </Box>
         </>
     );
 
@@ -139,8 +156,18 @@ function Header() {
                         duration: 0.5,
                         ease: "easeInOut",
                     }}
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
                 >
-                    <Stack p="0.3rem" direction={isMobile ? "column" : "row"}>
+                    <Stack
+                        p="0.3rem"
+                        direction={isMobile ? "column" : "row"}
+                        rowGap={2}
+                        mt="1rem"
+                    >
                         <HeaderOptions />
                     </Stack>
                 </motion.div>

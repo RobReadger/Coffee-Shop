@@ -12,6 +12,7 @@ function HeaderItem({ children }) {
             style={{
                 position: "relative",
                 overflow: "hidden",
+                textAlign: "center"
             }}
             whileHover={{
                 scale: 1.1,
